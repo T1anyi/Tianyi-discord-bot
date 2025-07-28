@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import discord
+import random
 from discord.ext import commands
 from discord import app_commands
 
@@ -11,7 +12,7 @@ TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 # discord.Object(id=934629797668200458) My server
 GUILD_ID= discord.Object(id=1048428980128198677)
 
-intents = discord.Intents.default()
+intents = discord.Intents.default() 
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
@@ -48,5 +49,12 @@ async def hello(interaction: discord.Interaction):
 async def ping(interaction: discord.Interaction):
     await interaction.response.send_message(f'Pong!\n```fix\n{round(bot.latency * 1000)} ms```')
 
+# /rng
+@bot.tree.command(name="random", description="Random Number Generator", guild=GUILD_ID)
+@app_commands.describe(min="Lower bound", max="Upper bound")
+async def randomnum(interaction: discord.Interaction, min: int, max: int):
+    number = random.randint(min,max)
+    await interaction.response.send_message(f"**{number}**")
     
+
 bot.run(TOKEN)
