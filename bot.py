@@ -55,6 +55,11 @@ async def ping(interaction: discord.Interaction):
 async def randomnum(interaction: discord.Interaction, min: int, max: int):
     number = random.randint(min,max)
     await interaction.response.send_message(f"**{number}**")
-    
+
+# /dice
+@bot.tree.command(name="dice", description="Roll d6 dice", guild=GUILD_ID)
+async def roll(interaction: discord.Interaction):
+    number = random.randint(1,6)
+    await interaction.response.send_message(f"🎲 You rolled a: **{number}**")
 
 bot.run(TOKEN)
