@@ -58,8 +58,18 @@ async def randomnum(interaction: discord.Interaction, min: int, max: int):
 
 # /dice
 @bot.tree.command(name="dice", description="Roll d6 dice", guild=GUILD_ID)
-async def roll(interaction: discord.Interaction):
+@app_commands.describe(amount="How many dice")
+async def roll(interaction: discord.Interaction, amount: int):
+    total = 0
+    i = 1
     number = random.randint(1,6)
-    await interaction.response.send_message(f"🎲 You rolled a: **{number}**")
+    await interaction.response.send_message(f"🎲 You rolled: **{number}**")
+    total += number
+    while i < amount:
+        number = random.randint(1,6)
+        await interaction.followup.send(f"🎲 You rolled: **{number}**")
+        total += number
+        i +=1
+    await interaction.followup.send(f"Total amount rolled: **{total}**")
 
 bot.run(TOKEN)
